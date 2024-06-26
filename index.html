@@ -117,10 +117,10 @@
 <body>
     <div class="container">
         <div id="header">
-            <h1>Rate This Spot</h1>
+            <h1 data-translate="title">Rate This Spot</h1>
             <div id="userActions">
-                <button id="signInBtn">Sign In</button>
-                <button id="settingsBtn">Settings</button>
+                <button id="signInBtn" data-translate="signIn">Sign In</button>
+                <button id="settingsBtn" data-translate="settings">Settings</button>
             </div>
             <div id="languageSelection" class="hidden language-selection">
                 <ul>
@@ -133,15 +133,15 @@
                 </ul>
             </div>
         </div>
-        <input type="text" id="searchBar" placeholder="Search spots...">
-        <button id="addReviewBtn">Add New Review</button>
+        <input type="text" id="searchBar" data-translate="searchPlaceholder" placeholder="Search spots...">
+        <button id="addReviewBtn" data-translate="addReview">Add New Review</button>
         <div id="reviewForm" class="hidden">
-            <h2>Add Review</h2>
-            <label for="title">Title:</label>
+            <h2 data-translate="addReviewHeading">Add Review</h2>
+            <label for="title" data-translate="titleLabel">Title:</label>
             <input type="text" id="title">
-            <label for="description">Description:</label>
+            <label for="description" data-translate="descriptionLabel">Description:</label>
             <textarea id="description"></textarea>
-            <label for="rating">Rating:</label>
+            <label for="rating" data-translate="ratingLabel">Rating:</label>
             <div id="starRating">
                 <span class="star" data-value="1">★</span>
                 <span class="star" data-value="2">★</span>
@@ -150,21 +150,59 @@
                 <span class="star" data-value="5">★</span>
             </div>
             <input type="hidden" id="ratingValue" value="0">
-            <label for="imageUpload">Upload Image:</label>
+            <label for="imageUpload" data-translate="uploadLabel">Upload Image:</label>
             <input type="file" id="imageUpload" accept="image/*">
-            <label>or</label>
-            <button id="takePictureBtn">Take Picture</button>
+            <label data-translate="orLabel">or</label>
+            <button id="takePictureBtn" data-translate="takePicture">Take Picture</button>
             <video id="video" width="300" height="300" autoplay class="hidden"></video>
             <canvas id="canvas" width="300" height="300" class="hidden"></canvas>
-            <button id="captureBtn" class="hidden">Capture</button>
+            <button id="captureBtn" class="hidden" data-translate="capture">Capture</button>
             <img id="previewImage" class="hidden" />
-            <button id="saveReviewBtn">Save Review</button>
+            <button id="saveReviewBtn" data-translate="saveReview">Save Review</button>
         </div>
-        <h2>Your Saved Spots</h2>
+        <h2 data-translate="savedSpotsHeading">Your Saved Spots</h2>
         <div id="reviews"></div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                en: {
+                    title: "Rate This Spot",
+                    signIn: "Sign In",
+                    settings: "Settings",
+                    searchPlaceholder: "Search spots...",
+                    addReview: "Add New Review",
+                    addReviewHeading: "Add Review",
+                    titleLabel: "Title:",
+                    descriptionLabel: "Description:",
+                    ratingLabel: "Rating:",
+                    uploadLabel: "Upload Image:",
+                    orLabel: "or",
+                    takePicture: "Take Picture",
+                    capture: "Capture",
+                    saveReview: "Save Review",
+                    savedSpotsHeading: "Your Saved Spots"
+                },
+                es: {
+                    title: "Califica Este Lugar",
+                    signIn: "Iniciar Sesión",
+                    settings: "Configuración",
+                    searchPlaceholder: "Buscar lugares...",
+                    addReview: "Añadir Nueva Reseña",
+                    addReviewHeading: "Añadir Reseña",
+                    titleLabel: "Título:",
+                    descriptionLabel: "Descripción:",
+                    ratingLabel: "Calificación:",
+                    uploadLabel: "Subir Imagen:",
+                    orLabel: "o",
+                    takePicture: "Tomar Foto",
+                    capture: "Capturar",
+                    saveReview: "Guardar Reseña",
+                    savedSpotsHeading: "Tus Lugares Guardados"
+                },
+                // Add more languages here...
+            };
+
             const addReviewBtn = document.getElementById('addReviewBtn');
             const reviewForm = document.getElementById('reviewForm');
             const saveReviewBtn = document.getElementById('saveReviewBtn');
@@ -185,33 +223,39 @@
             let currentImage = '';
             let editingReviewId = null;
 
-            addReviewBtn.addEventListener('click', () => {
-                resetForm();
-                reviewForm.classList.toggle('hidden');
-            });
+            const translatePage = (language) => {
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    el.innerText = translations[language][key] || el.innerText;
+                    if (el.placeholder) {
+                        el.placeholder = translations[language][key] || el.placeholder;
+                    }
+                });
+            };
 
-            starRating.addEventListener('click', (e) => {
-                if (e.target.classList.contains('star')) {
-                    const rating = e.target.getAttribute('data-value');
-                    ratingValue.value = rating;
-                    highlightStars(rating);
-                }
+            addReviewBtn.addEventListener('click', () => {
+                reviewForm.classList.remove('hidden');
             });
 
             starRating.addEventListener('mouseover', (e) => {
                 if (e.target.classList.contains('star')) {
-                    const rating = e.target.getAttribute('data-value');
-                    highlightStars(rating);
+                    highlightStars(e.target.dataset.value);
                 }
             });
 
-            starRating.addEventListener('mouseout', () => {
+            starRating.addEventListener('click', (e) => {
+                if (e.target.classList.contains('star')) {
+                    ratingValue.value = e.target.dataset.value;
+                }
+            });
+
+            starRating.addEventListener('mouseleave', () => {
                 highlightStars(ratingValue.value);
             });
 
             const highlightStars = (rating) => {
-                [...starRating.children].forEach(star => {
-                    star.style.color = star.getAttribute('data-value') <= rating ? 'gold' : 'gray';
+                document.querySelectorAll('.star').forEach(star => {
+                    star.style.color = star.dataset.value <= rating ? 'gold' : 'gray';
                 });
             };
 
@@ -231,27 +275,24 @@
             });
 
             takePictureBtn.addEventListener('click', () => {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(stream => {
-                        video.srcObject = stream;
-                        video.classList.remove('hidden');
-                        captureBtn.classList.remove('hidden');
-                    })
-                    .catch(error => {
-                        console.error('Error accessing camera:', error);
-                        alert('Error accessing camera. Please upload an image instead.');
-                    });
+                video.classList.remove('hidden');
+                captureBtn.classList.remove('hidden');
+                navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                    video.srcObject = stream;
+                });
             });
 
             captureBtn.addEventListener('click', () => {
                 const context = canvas.getContext('2d');
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                currentImage = canvas.toDataURL('image/png');
-                previewImage.src = currentImage;
-                previewImage.classList.remove('hidden');
-                video.classList.add('hidden');
-                captureBtn.classList.add('hidden');
-                video.srcObject.getTracks().forEach(track => track.stop());
+                resizeImage(canvas.toDataURL('image/png'), (resizedImage) => {
+                    currentImage = resizedImage;
+                    previewImage.src = currentImage;
+                    previewImage.classList.remove('hidden');
+                    video.classList.add('hidden');
+                    captureBtn.classList.add('hidden');
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                });
             });
 
             saveReviewBtn.addEventListener('click', () => {
@@ -302,9 +343,9 @@
                         </div>
                         <p>${review.description}</p>
                         <div class="review-actions">
-                            <button onclick="editReviewForm(${review.id})">Edit</button>
-                            <button onclick="deleteReview(${review.id})">Delete</button>
-                            <button onclick="shareReview(${review.id})">Share</button>
+                            <button onclick="editReviewForm(${review.id})" data-translate="edit">Edit</button>
+                            <button onclick="deleteReview(${review.id})" data-translate="delete">Delete</button>
+                            <button onclick="shareReview(${review.id})" data-translate="share">Share</button>
                         </div>
                     </div>
                 `).join('');
@@ -375,6 +416,7 @@
             });
 
             const changeLanguage = (languageCode) => {
+                translatePage(languageCode);
                 alert(`Language changed to ${languageCode.toUpperCase()} (mocked)`);
                 languageSelection.classList.add('hidden');
                 // Code to switch language (mocked)
@@ -414,6 +456,7 @@
                 img.src = base64Str;
             };
 
+            translatePage('en'); // Default language
             displayReviews();
         });
     </script>
