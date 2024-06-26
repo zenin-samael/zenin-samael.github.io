@@ -81,8 +81,27 @@
         .review-actions button:hover {
             background-color: #27ae60;
         }
-        .location-inputs {
-            margin-top: 20px;
+        .language-selection {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        .language-selection ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .language-selection li {
+            cursor: pointer;
+            padding: 5px;
+        }
+        .language-selection li:hover {
+            background-color: #555;
         }
     </style>
 </head>
@@ -94,21 +113,23 @@
                 <button id="signInBtn">Sign In</button>
                 <button id="settingsBtn">Settings</button>
             </div>
+            <div id="languageSelection" class="hidden language-selection">
+                <ul>
+                    <li onclick="changeLanguage('en')">English</li>
+                    <li onclick="changeLanguage('es')">Spanish</li>
+                    <li onclick="changeLanguage('it')">Italian</li>
+                    <li onclick="changeLanguage('fr')">French</li>
+                    <li onclick="changeLanguage('de')">German</li>
+                    <li onclick="changeLanguage('ru')">Russian</li>
+                </ul>
+            </div>
         </div>
         <button id="addReviewBtn">Add New Review</button>
         <div id="reviewForm" class="hidden">
             <h2>Add Review</h2>
-            <div class="location-inputs">
-                <label for="locationName">Location Name:</label>
-                <input type="text" id="locationName">
-                <label for="locationAddress">Location Address:</label>
-                <input type="text" id="locationAddress">
-                <label for="locationCoordinates">Location Coordinates:</label>
-                <input type="text" id="locationCoordinates" placeholder="latitude, longitude">
-            </div>
-            <label for="title">Review Title:</label>
+            <label for="title">Title:</label>
             <input type="text" id="title">
-            <label for="description">Review Description:</label>
+            <label for="description">Description:</label>
             <textarea id="description"></textarea>
             <label for="rating">Rating:</label>
             <div id="starRating">
@@ -148,6 +169,7 @@
             const captureBtn = document.getElementById('captureBtn');
             const signInBtn = document.getElementById('signInBtn');
             const settingsBtn = document.getElementById('settingsBtn');
+            const languageSelection = document.getElementById('languageSelection');
 
             let currentImage = '';
             let editingReviewId = null;
@@ -220,21 +242,17 @@
             });
 
             saveReviewBtn.addEventListener('click', () => {
-                const locationName = document.getElementById('locationName').value;
-                const locationAddress = document.getElementById('locationAddress').value;
-                const locationCoordinates = document.getElementById('locationCoordinates').value;
                 const title = document.getElementById('title').value;
                 const description = document.getElementById('description').value;
                 const rating = ratingValue.value;
 
-                if (title && description && rating > 0 && currentImage && locationName && locationAddress && locationCoordinates) {
-                    const location = { name: locationName, address: locationAddress, coordinates: locationCoordinates };
+                if (title && description && rating > 0 && currentImage) {
                     if (editingReviewId) {
                         // Edit existing review
-                        editReview(editingReviewId, title, description, rating, currentImage, location);
+                        editReview(editingReviewId, title, description, rating, currentImage);
                     } else {
                         // Save new review
-                        saveReview({ title, description, rating, image: currentImage, location });
+                        saveReview({ title, description, rating, image: currentImage });
                     }
 
                     displayReviews();
@@ -252,11 +270,11 @@
                 localStorage.setItem('reviews', JSON.stringify(reviews));
             };
 
-            const editReview = (id, title, description, rating, image, location) => {
+            const editReview = (id, title, description, rating, image) => {
                 let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
                 const index = reviews.findIndex(review => review.id === id);
                 if (index !== -1) {
-                    reviews[index] = { id, title, description, rating, image, location };
+                    reviews[index] = { id, title, description, rating, image };
                     localStorage.setItem('reviews', JSON.stringify(reviews));
                 }
             };
@@ -270,7 +288,6 @@
                             <div>
                                 <h3>${review.title}</h3>
                                 <p>Rating: ${review.rating} / 5</p>
-                                <p>Location: ${review.location.name} (${review.location.address})</p>
                             </div>
                         </div>
                         <p>${review.description}</p>
@@ -287,9 +304,6 @@
                 editingReviewId = null;
                 document.getElementById('title').value = '';
                 document.getElementById('description').value = '';
-                document.getElementById('locationName').value = '';
-                document.getElementById('locationAddress').value = '';
-                document.getElementById('locationCoordinates').value = '';
                 ratingValue.value = 0;
                 currentImage = '';
                 previewImage.classList.add('hidden');
@@ -304,9 +318,6 @@
                     editingReviewId = reviewToEdit.id;
                     document.getElementById('title').value = reviewToEdit.title;
                     document.getElementById('description').value = reviewToEdit.description;
-                    document.getElementById('locationName').value = reviewToEdit.location.name;
-                    document.getElementById('locationAddress').value = reviewToEdit.location.address;
-                    document.getElementById('locationCoordinates').value = reviewToEdit.location.coordinates;
                     ratingValue.value = reviewToEdit.rating;
                     currentImage = reviewToEdit.image;
                     previewImage.src = currentImage;
@@ -344,6 +355,17 @@
 
             settingsBtn.addEventListener('click', () => {
                 languageSelection.classList.toggle('hidden');
+            });
+
+            const languageItems = languageSelection.querySelectorAll('li');
+            languageItems.forEach(item => {
+                item.addEventListener('mouseover', () => {
+                    item.style.backgroundColor = '#555';
+                });
+
+                item.addEventListener('mouseout', () => {
+                    item.style.backgroundColor = 'transparent';
+                });
             });
         });
     </script>
