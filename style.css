@@ -88,3 +88,46 @@ textarea {
 .review-actions button:hover {
     background-color: #27ae60; /* Darker green on hover */
 }
+
+
+#settingsBtn {
+    position: relative; /* Ensure relative positioning for absolute child */
+}
+
+/* Existing CSS */
+#settingsBtn {
+    position: relative;
+}
+
+#languageSelection {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style-type: none;
+    padding: 5px 10px;
+    background-color: #333;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+#languageSelection li {
+    margin-bottom: 5px;
+}
+
+#languageSelection a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 5px;
+}
+
+#languageSelection a:hover {
+    background-color: #555;
+}
+
+/* Show language selection when hovering over settings button */
+#settingsBtn:hover #languageSelection {
+    display: block;
+}
+
