@@ -131,6 +131,8 @@
             <input type="text" id="title">
             <label for="description">Description:</label>
             <textarea id="description"></textarea>
+            <label for="address">Address:</label>
+            <input type="text" id="address">
             <label for="rating">Rating:</label>
             <div id="starRating">
                 <span class="star" data-value="1">★</span>
@@ -245,14 +247,15 @@
                 const title = document.getElementById('title').value;
                 const description = document.getElementById('description').value;
                 const rating = ratingValue.value;
+                const address = document.getElementById('address').value;
 
-                if (title && description && rating > 0 && currentImage) {
+                if (title && description && rating > 0 && currentImage && address) {
                     if (editingReviewId) {
                         // Edit existing review
-                        editReview(editingReviewId, title, description, rating, currentImage);
+                        editReview(editingReviewId, title, description, rating, currentImage, address);
                     } else {
                         // Save new review
-                        saveReview({ title, description, rating, image: currentImage });
+                        saveReview({ title, description, rating, image: currentImage, address });
                     }
 
                     displayReviews();
@@ -270,11 +273,11 @@
                 localStorage.setItem('reviews', JSON.stringify(reviews));
             };
 
-            const editReview = (id, title, description, rating, image) => {
+            const editReview = (id, title, description, rating, image, address) => {
                 let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
                 const index = reviews.findIndex(review => review.id === id);
                 if (index !== -1) {
-                    reviews[index] = { id, title, description, rating, image };
+                    reviews[index] = { id, title, description, rating, image, address };
                     localStorage.setItem('reviews', JSON.stringify(reviews));
                 }
             };
@@ -288,6 +291,7 @@
                             <div>
                                 <h3>${review.title}</h3>
                                 <p>Rating: ${review.rating} / 5</p>
+                                <p>Address: ${review.address}</p>
                             </div>
                         </div>
                         <p>${review.description}</p>
@@ -304,6 +308,7 @@
                 editingReviewId = null;
                 document.getElementById('title').value = '';
                 document.getElementById('description').value = '';
+                document.getElementById('address').value = '';
                 ratingValue.value = 0;
                 currentImage = '';
                 previewImage.classList.add('hidden');
@@ -318,6 +323,7 @@
                     editingReviewId = reviewToEdit.id;
                     document.getElementById('title').value = reviewToEdit.title;
                     document.getElementById('description').value = reviewToEdit.description;
+                    document.getElementById('address').value = reviewToEdit.address;
                     ratingValue.value = reviewToEdit.rating;
                     currentImage = reviewToEdit.image;
                     previewImage.src = currentImage;
