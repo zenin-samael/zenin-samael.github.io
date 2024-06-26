@@ -1,0 +1,90 @@
+body {
+    font-family: 'Poppins', sans-serif; /* Use Poppins font */
+    background-image: url('https://img.freepik.com/free-vector/black-background-with-wavy-lines_52683-76524.jpg?t=st=1719394439~exp=1719398039~hmac=588f1f6013903f711383e5730d0a5ebe75f65ee37d4b102ba3006b9571de456e&w=996'); /* Update the URL to the image of your choice */
+    color: #fff; /* Light text color */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1, h2, h3 {
+    color: #f39c12; /* Orange text color */
+}
+
+button {
+    background-color: #f39c12; /* Orange button background */
+    color: #fff; /* White button text color */
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #e67e22; /* Darker orange on hover */
+}
+
+.hidden {
+    display: none;
+}
+
+#reviewForm {
+    margin-top: 20px;
+}
+
+label, input, textarea {
+    display: block;
+    margin-bottom: 10px;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+#starRating {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.star {
+    color: gray;
+    cursor: pointer;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.review {
+    background-color: #444;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.review-actions {
+    margin-top: 10px;
+}
+
+.review-actions button {
+    margin-right: 10px;
+    background-color: #2ecc71; /* Green button background */
+}
+
+.review-actions button:hover {
+    background-color: #27ae60; /* Darker green on hover */
+}
