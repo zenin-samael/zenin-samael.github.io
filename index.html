@@ -24,412 +24,497 @@
         h1, h2, h3 {
             color: #f39c12;
         }
-        button {
-            background-color: #f39c12;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-        button:hover {
-            background-color: #e67e22;
-        }
-        .hidden {
-            display: none;
-        }
-        #reviewForm {
-            margin-top: 20px;
-        }
-        label, input, textarea {
-            display: block;
-            margin-bottom: 10px;
-        }
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        #starRating {
-            margin-bottom: 10px;
-            font-size: 24px;
-        }
-        .star {
-            color: gray;
-            cursor: pointer;
-        }
-        .thumbnail {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-right: 10px;
-        }
-        .review {
-            background-color: #444;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 4px;
-        }
-        .review-actions {
-            margin-top: 10px;
-        }
-        .review-actions button {
-            margin-right: 10px;
-            background-color: #2ecc71;
-        }
-        .review-actions button:hover {
-            background-color: #27ae60;
-        }
-        .language-selection {
-            position: absolute;
-            top: 40px;
-            right: 20px;
-            background-color: #333;
-            padding: 10px;
-            border-radius: 4px;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
-        .language-selection ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .language-selection li {
-            cursor: pointer;
-            padding: 5px;
-        }
-        .language-selection li:hover {
-            background-color: #555;
-        }
-        #searchBar {
-            margin-bottom: 10px;
-            padding: 8px;
-            width: calc(100% - 16px);
-            border: 1px solid #555;
-            border-radius: 4px;
-            background-color: #444;
-            color: #fff;
-        }
-    </style>
+       
+button {
+    background-color: #f39c12;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+button:hover {
+    background-color: #e67e22;
+}
+.hidden {
+    display: none;
+}
+#reviewForm {
+    margin-top: 20px;
+}
+label, input, textarea {
+    display: block;
+    margin-bottom: 10px;
+}
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+#starRating {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+.star {
+    color: gray;
+    cursor: pointer;
+}
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+.review {
+    background-color: #444;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+.review-actions {
+    margin-top: 10px;
+}
+.review-actions button {
+    margin-right: 10px;
+    background-color: #2ecc71;
+}
+.review-actions button:hover {
+    background-color: #27ae60;
+}
+.language-selection {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+.language-selection ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.language-selection li {
+    cursor: pointer;
+    padding: 5px;
+}
+.language-selection li:hover {
+    background-color: #555;
+}
+#searchBar {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: calc(100% - 16px);
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #444;
+    color: #fff;
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div id="header">
-            <h1 data-translate="title">Rate This Spot</h1>
-            <div id="userActions">
-                <button id="signInBtn" data-translate="signIn">Sign In</button>
-                <button id="settingsBtn" data-translate="settings">Settings</button>
-            </div>
-            <div id="languageSelection" class="hidden language-selection">
-                <ul>
-                    <li onclick="changeLanguage('en')">English</li>
-                    <li onclick="changeLanguage('es')">Spanish</li>
-                    <li onclick="changeLanguage('it')">Italian</li>
-                    <li onclick="changeLanguage('fr')">French</li>
-                    <li onclick="changeLanguage('de')">German</li>
-                    <li onclick="changeLanguage('ru')">Russian</li>
-                </ul>
-            </div>
-        </div>
-        <input type="text" id="searchBar" data-translate="searchPlaceholder" placeholder="Search spots...">
-        <button id="addReviewBtn" data-translate="addReview">Add New Review</button>
-        <div id="reviewForm" class="hidden">
-            <h2 data-translate="addReviewHeading">Add Review</h2>
-            <label for="title" data-translate="titleLabel">Title:</label>
-            <input type="text" id="title">
-            <label for="description" data-translate="descriptionLabel">Description:</label>
-            <textarea id="description"></textarea>
-            <label for="rating" data-translate="ratingLabel">Rating:</label>
-            <div id="starRating">
-                <span class="star" data-value="1">★</span>
-                <span class="star" data-value="2">★</span>
-                <span class="star" data-value="3">★</span>
-                <span class="star" data-value="4">★</span>
-                <span class="star" data-value="5">★</span>
-            </div>
-            <input type="hidden" id="ratingValue" value="0">
-            <label for="imageUpload" data-translate="uploadLabel">Upload Image:</label>
-            <input type="file" id="imageUpload" accept="image/*">
-            <label data-translate="orLabel">or</label>
-            <button id="takePictureBtn" data-translate="takePicture">Take Picture</button>
-            <video id="video" width="300" height="300" autoplay class="hidden"></video>
-            <canvas id="canvas" width="300" height="300" class="hidden"></canvas>
-            <button id="captureBtn" class="hidden" data-translate="capture">Capture</button>
-            <img id="previewImage" class="hidden" />
-            <button id="saveReviewBtn" data-translate="saveReview">Save Review</button>
-        </div>
-        <h2 data-translate="savedSpotsHeading">Your Saved Spots</h2>
-        <div id="reviews"></div>
+<div class="container">
+<div id="header">
+    <h1 data-translate="title">Rate This Spot</h1>
+    <div id="userActions">
+        <button id="signInBtn" data-translate="signIn">Sign In</button>
+        <button id="settingsBtn" data-translate="settings">Settings</button>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const translations = {
-                en: {
-                    title: "Rate This Spot",
-                    signIn: "Sign In",
-                    settings: "Settings",
-                    searchPlaceholder: "Search spots...",
-                    addReview: "Add New Review",
-                    addReviewHeading: "Add Review",
-                    titleLabel: "Title:",
-                    descriptionLabel: "Description:",
-                    ratingLabel: "Rating:",
-                    uploadLabel: "Upload Image:",
-                    orLabel: "or",
-                    takePicture: "Take Picture",
-                    capture: "Capture",
-                    saveReview: "Save Review",
-                    savedSpotsHeading: "Your Saved Spots"
-                },
-                es: {
-                    title: "Califica Este Lugar",
-                    signIn: "Iniciar Sesión",
-                    settings: "Configuración",
-                    searchPlaceholder: "Buscar lugares...",
-                    addReview: "Añadir Nueva Reseña",
-                    addReviewHeading: "Añadir Reseña",
-                    titleLabel: "Título:",
-                    descriptionLabel: "Descripción:",
-                    ratingLabel: "Calificación:",
-                    uploadLabel: "Subir Imagen:",
-                    orLabel: "o",
-                    takePicture: "Tomar Foto",
-                    capture: "Capturar",
-                    saveReview: "Guardar Reseña",
-                    savedSpotsHeading: "Tus Lugares Guardados"
-                },
-                // Add more languages here...
-            };
+    <div id="languageSelection" class="hidden language-selection">
+        <ul>
+            <li onclick="changeLanguage('en')">English</li>
+            <li onclick="changeLanguage('es')">Spanish</li>
+            <li onclick="changeLanguage('it')">Italian</li>
+            <li onclick="changeLanguage('fr')">French</li>
+            <li onclick="changeLanguage('de')">German</li>
+            <li onclick="changeLanguage('ru')">Russian</li>
+        </ul>
+    </div>
+</div>
+<input type="text" id="searchBar" data-translate="searchPlaceholder" placeholder="Search spots...">
+<button id="addReviewBtn" data-translate="addReview">Add New Review</button>
+<div id="reviewForm" class="hidden">
+    <h2 data-translate="addReviewHeading">Add Review</h2>
+    <label for="title" data-translate="titleLabel">Title:</label>
+    <input type="text" id="title">
+    <label for="description" data-translate="descriptionLabel">Description:</label>
+    <textarea id="description"></textarea>
+    <label for="rating" data-translate="ratingLabel">Rating:</label>
+    <div id="starRating">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+    <input type="hidden" id="ratingValue" value="0">
+    <label for="imageUpload" data-translate="uploadLabel">Upload Image:</label>
+    <input type="file" id="imageUpload" accept="image/*">
+    <label data-translate="orLabel">or</label>
+    <button id="takePictureBtn" data-translate="takePicture">Take Picture</button>
+    <video id="video" width="300" height="300" autoplay class="hidden"></video>
+    <canvas id="canvas" width="300" height="300" class="hidden"></canvas>
+    <button id="captureBtn" class="hidden" data-translate="capture">Capture</button>
+    <img id="previewImage" class="hidden" />
+    <button id="saveReviewBtn" data-translate="saveReview">Save Review</button>
+</div>
+<h2 data-translate="savedSpotsHeading">Your Saved Spots</h2>
+<div id="reviews"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const translations = {
+        en: {
+            title: "Rate This Spot",
+            signIn: "Sign In",
+            settings: "Settings",
+            searchPlaceholder: "Search spots...",
+            addReview: "Add New Review",
+            addReviewHeading: "Add Review",
+            titleLabel: "Title:",
+            descriptionLabel: "Description:",
+            ratingLabel: "Rating:",
+            uploadLabel: "Upload Image:",
+            orLabel: "or",
+            takePicture: "Take Picture",
+            capture: "Capture",
+            saveReview: "Save Review",
+            savedSpotsHeading: "Your Saved Spots",
+            edit: "Edit",
+            delete: "Delete",
+            share: "Share"
+        },
+        es: {
+            title: "Califica Este Lugar",
+            signIn: "Iniciar Sesión",
+            settings: "Configuración",
+            searchPlaceholder: "Buscar lugares...",
+            addReview: "Añadir Nueva Reseña",
+            addReviewHeading: "Añadir Reseña",
+            titleLabel: "Título:",
+            descriptionLabel: "Descripción:",
+            ratingLabel: "Calificación:",
+            uploadLabel: "Subir Imagen:",
+            orLabel: "o",
+            takePicture: "Tomar Foto",
+            capture: "Capturar",
+            saveReview: "Guardar Reseña",
+            savedSpotsHeading: "Tus Lugares Guardados",
+            edit: "Editar",
+            delete: "Eliminar",
+            share: "Compartir"
+        },
+        it: {
+            title: "Valuta Questo Posto",
+            signIn: "Accedi",
+            settings: "Impostazioni",
+            searchPlaceholder: "Cerca posti...",
+            addReview: "Aggiungi Nuova Recensione",
+            addReviewHeading: "Aggiungi Recensione",
+            titleLabel: "Titolo:",
+            descriptionLabel: "Descrizione:",
+            ratingLabel: "Valutazione:",
+            uploadLabel: "Carica Immagine:",
+            orLabel: "o",
+            takePicture: "Scatta Foto",
+            capture: "Cattura",
+            saveReview: "Salva Recensione",
+            savedSpotsHeading: "I Tuoi Luoghi Salvati",
+            edit: "Modifica",
+            delete: "Elimina",
+            share: "Condividi"
+        },
+        fr: {
+            title: "Évaluez Cet Endroit",
+            signIn: "Se Connecter",
+            settings: "Paramètres",
+            searchPlaceholder: "Rechercher des lieux...",
+            addReview: "Ajouter Nouvelle Critique",
+            addReviewHeading: "Ajouter Critique",
+            titleLabel: "Titre:",
+            descriptionLabel: "Description:",
+            ratingLabel: "Évaluation:",
+            uploadLabel: "Télécharger l'Image:",
+            orLabel: "ou",
+            takePicture: "Prendre une Photo",
+            capture: "Capturer",
+            saveReview: "Enregistrer la Critique",
+            savedSpotsHeading: "Vos Endroits Enregistrés",
+            edit: "Modifier",
+            delete: "Supprimer",
+            share: "Partager"
+        },
+        de: {
+            title: "Bewerte Dieser Ort",
+            signIn: "Anmelden",
+            settings: "Einstellungen",
+            searchPlaceholder: "Orte suchen...",
+            addReview: "Neue Bewertung Hinzufügen",
+            addReviewHeading: "Bewertung Hinzufügen",
+            titleLabel: "Titel:",
+            descriptionLabel: "Beschreibung:",
+            ratingLabel: "Bewertung:",
+            uploadLabel: "Bild Hochladen:",
+            orLabel: "oder",
+            takePicture: "Foto Machen",
+            capture: "Erfassen",
+            saveReview: "Bewertung Speichern",
+            savedSpotsHeading: "Ihre Gespeicherten Orte",
+            edit: "Bearbeiten",
+            delete: "Löschen",
+            share: "Teilen"
+        },
+        ru: {
+            title: "Оцените Это Место",
+            signIn: "Войти",
+            settings: "Настройки",
+            searchPlaceholder: "Поиск мест...",
+            addReview: "Добавить Новый Отзыв",
+            addReviewHeading: "Добавить Отзыв",
+            titleLabel: "Название:",
+            descriptionLabel: "Описание:",
+            ratingLabel: "Рейтинг:",
+            uploadLabel: "Загрузить изображение:",
+            orLabel: "или",
+            takePicture: "Сделать фото",
+            capture: "Захватить",
+            saveReview: "Сохранить отзыв",
+            savedSpotsHeading: "Ваши сохраненные места",
+            edit: "Редактировать",
+            delete: "Удалить",
+            share: "Поделиться"
+        }
+    };
 
-            const addReviewBtn = document.getElementById('addReviewBtn');
-            const reviewForm = document.getElementById('reviewForm');
-            const saveReviewBtn = document.getElementById('saveReviewBtn');
-            const reviewsContainer = document.getElementById('reviews');
-            const starRating = document.getElementById('starRating');
-            const ratingValue = document.getElementById('ratingValue');
-            const imageUpload = document.getElementById('imageUpload');
-            const previewImage = document.getElementById('previewImage');
-            const takePictureBtn = document.getElementById('takePictureBtn');
-            const video = document.getElementById('video');
-            const canvas = document.getElementById('canvas');
-            const captureBtn = document.getElementById('captureBtn');
-            const signInBtn = document.getElementById('signInBtn');
-            const settingsBtn = document.getElementById('settingsBtn');
-            const languageSelection = document.getElementById('languageSelection');
-            const searchBar = document.getElementById('searchBar');
+    const addReviewBtn = document.getElementById('addReviewBtn');
+    const reviewForm = document.getElementById('reviewForm');
+    const starRating = document.getElementById('starRating');
+    const ratingValue = document.getElementById('ratingValue');
+    const imageUpload = document.getElementById('imageUpload');
+    const takePictureBtn = document.getElementById('takePictureBtn');
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureBtn = document.getElementById('captureBtn');
+    const previewImage = document.getElementById('previewImage');
+    const saveReviewBtn = document.getElementById('saveReviewBtn');
+    const reviewsContainer = document.getElementById('reviews');
+    const signInBtn = document.getElementById('signInBtn');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const languageSelection = document.getElementById('languageSelection');
+    const searchBar = document.getElementById('searchBar');
 
-            let currentImage = '';
-            let editingReviewId = null;
+    let currentImage = '';
+    let editingReviewId = null;
 
-            const translatePage = (language) => {
-                document.querySelectorAll('[data-translate]').forEach(el => {
-                    const key = el.getAttribute('data-translate');
-                    el.innerText = translations[language][key] || el.innerText;
-                    if (el.placeholder) {
-                        el.placeholder = translations[language][key] || el.placeholder;
-                    }
-                });
-            };
+    const translatePage = (language) => {
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.getAttribute('data-translate');
+            if (el.placeholder) {
+                el.placeholder = translations[language][key] || el.placeholder;
+            } else {
+                el.innerText = translations[language][key] || el.innerText;
+            }
+        });
+    };
 
-            addReviewBtn.addEventListener('click', () => {
-                reviewForm.classList.remove('hidden');
-            });
+    addReviewBtn.addEventListener('click', () => {
+        reviewForm.classList.remove('hidden');
+    });
 
-            starRating.addEventListener('mouseover', (e) => {
-                if (e.target.classList.contains('star')) {
-                    highlightStars(e.target.dataset.value);
-                }
-            });
+    starRating.addEventListener('mouseover', (e) => {
+        if (e.target.classList.contains('star')) {
+            highlightStars(e.target.dataset.value);
+        }
+    });
 
-            starRating.addEventListener('click', (e) => {
-                if (e.target.classList.contains('star')) {
-                    ratingValue.value = e.target.dataset.value;
-                }
-            });
+    starRating.addEventListener('click', (e) => {
+        if (e.target.classList.contains('star')) {
+            ratingValue.value = e.target.dataset.value;
+        }
+    });
 
-            starRating.addEventListener('mouseleave', () => {
-                highlightStars(ratingValue.value);
-            });
+    starRating.addEventListener('mouseleave', () => {
+        highlightStars(ratingValue.value);
+    });
 
-            const highlightStars = (rating) => {
-                document.querySelectorAll('.star').forEach(star => {
-                    star.style.color = star.dataset.value <= rating ? 'gold' : 'gray';
-                });
-            };
+    const highlightStars = (rating) => {
+        document.querySelectorAll('.star').forEach(star => {
+            star.style.color = star.dataset.value <= rating ? 'gold' : 'gray';
+        });
+    };
 
-            imageUpload.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        resizeImage(event.target.result, (resizedImage) => {
-                            currentImage = resizedImage;
-                            previewImage.src = currentImage;
-                            previewImage.classList.remove('hidden');
-                        });
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            takePictureBtn.addEventListener('click', () => {
-                video.classList.remove('hidden');
-                captureBtn.classList.remove('hidden');
-                navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-                    video.srcObject = stream;
-                });
-            });
-
-            captureBtn.addEventListener('click', () => {
-                const context = canvas.getContext('2d');
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                resizeImage(canvas.toDataURL('image/png'), (resizedImage) => {
+    imageUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                resizeImage(event.target.result, (resizedImage) => {
                     currentImage = resizedImage;
                     previewImage.src = currentImage;
                     previewImage.classList.remove('hidden');
-                    video.classList.add('hidden');
-                    captureBtn.classList.add('hidden');
-                    video.srcObject.getTracks().forEach(track => track.stop());
                 });
-            });
-
-            saveReviewBtn.addEventListener('click', () => {
-                const title = document.getElementById('title').value;
-                const description = document.getElementById('description').value;
-                const rating = parseInt(ratingValue.value);
-                if (title && description && rating > 0 && currentImage) {
-                    if (editingReviewId) {
-                        editReview(editingReviewId, title, description, rating, currentImage);
-                    } else {
-                        saveReview({ title, description, rating, image: currentImage });
-                    }
-                    displayReviews();
-                    reviewForm.classList.add('hidden');
-                    resetForm();
-                } else {
-                    alert('Please fill in all fields and select a rating.');
-                }
-            });
-
-            const saveReview = (review) => {
-                let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-                review.id = Date.now();
-                reviews.push(review);
-                localStorage.setItem('reviews', JSON.stringify(reviews));
             };
+            reader.readAsDataURL(file);
+        }
+    });
 
-            const editReview = (id, title, description, rating, image) => {
-                let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-                const index = reviews.findIndex(review => review.id === id);
-                if (index !== -1) {
-                    reviews[index] = { id, title, description, rating, image };
-                    localStorage.setItem('reviews', JSON.stringify(reviews));
-                }
-            };
+    takePictureBtn.addEventListener('click', () => {
+        video.classList.remove('hidden');
+        captureBtn.classList.remove('hidden');
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            video.srcObject = stream;
+        });
+    });
 
-            const displayReviews = () => {
-                const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-                const filteredReviews = filterReviews(reviews, searchBar.value.toLowerCase().trim());
-                reviewsContainer.innerHTML = filteredReviews.map(review => `
-                    <div class="review">
-                        <div style="display: flex; align-items: center;">
-                            <img class="thumbnail" src="${review.image}" alt="Spot Thumbnail">
-                            <div>
-                                <h3>${review.title}</h3>
-                                <p>Rating: ${review.rating} / 5</p>
-                            </div>
-                        </div>
-                        <p>${review.description}</p>
-                        <div class="review-actions">
-                            <button onclick="editReviewForm(${review.id})" data-translate="edit">Edit</button>
-                            <button onclick="deleteReview(${review.id})" data-translate="delete">Delete</button>
-                            <button onclick="shareReview(${review.id})" data-translate="share">Share</button>
-                        </div>
+    captureBtn.addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        resizeImage(canvas.toDataURL('image/png'), (resizedImage) => {
+            currentImage = resizedImage;
+            previewImage.src = currentImage;
+            previewImage.classList.remove('hidden');
+            video.classList.add('hidden');
+            captureBtn.classList.add('hidden');
+            video.srcObject.getTracks().forEach(track => track.stop());
+        });
+    });
+
+    saveReviewBtn.addEventListener('click', () => {
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const rating = parseInt(ratingValue.value);
+        if (title && description && rating > 0 && currentImage) {
+            if (editingReviewId) {
+                editReview(editingReviewId, title, description, rating, currentImage);
+            } else {
+                saveReview({ title, description, rating, image: currentImage });
+            }
+            displayReviews();
+            reviewForm.classList.add('hidden');
+            resetForm();
+        } else {
+            alert('Please fill in all fields and select a rating.');
+        }
+    });
+
+    const saveReview = (review) => {
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        review.id = Date.now();
+        reviews.push(review);
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+    };
+
+    const editReview = (id, title, description, rating, image) => {
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        const index = reviews.findIndex(review => review.id === id);
+        if (index !== -1) {
+            reviews[index] = { id, title, description, rating, image };
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+        }
+    };
+
+    const displayReviews = () => {
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        const filteredReviews = filterReviews(reviews, searchBar.value.toLowerCase().trim());
+        reviewsContainer.innerHTML = filteredReviews.map(review => `
+            <div class="review">
+                <div style="display: flex; align-items: center;">
+                    <img class="thumbnail" src="${review.image}" alt="Spot Thumbnail">
+                    <div>
+                        <h3>${review.title}</h3>
+                        <p>Rating: ${review.rating} / 5</p>
                     </div>
-                `).join('');
-            };
+                </div>
+                <p>${review.description}</p>
+                <div class="review-actions">
+                    <button onclick="editReviewForm(${review.id})" data-translate="edit">Edit</button>
+                    <button onclick="deleteReview(${review.id})" data-translate="delete">Delete</button>
+                    <button onclick="shareReview(${review.id})" data-translate="share">Share</button>
+                </div>
+            </div>
+        `).join('');
+    };
 
-            const filterReviews = (reviews, searchTerm) => {
-                return reviews.filter(review => {
-                    const titleMatch = review.title.toLowerCase().includes(searchTerm);
-                    const descriptionMatch = review.description.toLowerCase().includes(searchTerm);
-                    return titleMatch || descriptionMatch;
-                });
-            };
+    const filterReviews = (reviews, searchTerm) => {
+        return reviews.filter(review => {
+            const titleMatch = review.title.toLowerCase().includes(searchTerm);
+            const descriptionMatch = review.description.toLowerCase().includes(searchTerm);
+            return titleMatch || descriptionMatch;
+        });
+    };
 
-            const resetForm = () => {
-                editingReviewId = null;
-                document.getElementById('title').value = '';
-                document.getElementById('description').value = '';
-                ratingValue.value = 0;
-                currentImage = '';
-                previewImage.classList.add('hidden');
-                previewImage.src = '';
-                highlightStars(0);
-                saveReviewBtn.innerText = 'Save Review';
-            };
+    const resetForm = () => {
+        editingReviewId = null;
+        document.getElementById('title').value = '';
+        document.getElementById('description').value = '';
+        ratingValue.value = 0;
+        currentImage = '';
+        previewImage.classList.add('hidden');
+        previewImage.src = '';
+        highlightStars(0);
+        saveReviewBtn.innerText = 'Save Review';
+    };
 
-            window.editReviewForm = (id) => {
-                const reviewToEdit = JSON.parse(localStorage.getItem('reviews')).find(review => review.id === id);
-                if (reviewToEdit) {
-                    editingReviewId = reviewToEdit.id;
-                    document.getElementById('title').value = reviewToEdit.title;
-                    document.getElementById('description').value = reviewToEdit.description;
-                    ratingValue.value = reviewToEdit.rating;
-                    currentImage = reviewToEdit.image;
-                    previewImage.src = currentImage;
-                    previewImage.classList.remove('hidden');
-                    highlightStars(reviewToEdit.rating);
-                    saveReviewBtn.innerText = 'Update Review';
-                    reviewForm.classList.remove('hidden');
-                }
-            };
+    window.editReviewForm = (id) => {
+        const reviewToEdit = JSON.parse(localStorage.getItem('reviews')).find(review => review.id === id);
+        if (reviewToEdit) {
+            editingReviewId = reviewToEdit.id;
+            document.getElementById('title').value = reviewToEdit.title;
+            document.getElementById('description').value = reviewToEdit.description;
+            ratingValue.value = reviewToEdit.rating;
+            currentImage = reviewToEdit.image;
+            previewImage.src = currentImage;
+            previewImage.classList.remove('hidden');
+            highlightStars(reviewToEdit.rating);
+            saveReviewBtn.innerText = 'Update Review';
+            reviewForm.classList.remove('hidden');
+        }
+    };
 
-            window.deleteReview = (id) => {
-                let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-                reviews = reviews.filter(review => review.id !== id);
-                localStorage.setItem('reviews', JSON.stringify(reviews));
-                displayReviews();
-            };
+    window.deleteReview = (id) => {
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        reviews = reviews.filter(review => review.id !== id);
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+        displayReviews();
+    };
 
-            window.shareReview = (id) => {
-                const reviewToShare = JSON.parse(localStorage.getItem('reviews')).find(review => review.id === id);
-                if (reviewToShare) {
-                    const shareOptions = `
-                        Sharing options:
-                        - Copy Link: (mock) ${location.href}
-                        - Instagram: (mock) Share on Instagram
-                        - Facebook: (mock) Share on Facebook
-                    `;
-                    alert(shareOptions);
-                }
-            };
+    window.shareReview = (id) => {
+        const reviewToShare = JSON.parse(localStorage.getItem('reviews')).find(review => review.id === id);
+        if (reviewToShare) {
+            const shareOptions = `
+                Sharing options:
+                - Copy Link: (mock) ${location.href}
+                - Instagram: (mock) Share on Instagram
+                - Facebook: (mock) Share on Facebook
+            `;
+            alert(shareOptions);
+        }
+    };
 
-            signInBtn.addEventListener('click', () => {
-                alert('Sign in functionality (mocked)');
-            });
+    signInBtn.addEventListener('click', () => {
+        alert('Sign in functionality (mocked)');
+    });
 
-            settingsBtn.addEventListener('click', () => {
-                languageSelection.classList.toggle('hidden');
-            });
+    settingsBtn.addEventListener('click', () => {
+        languageSelection.classList.toggle('hidden');
+    });
 
-            const changeLanguage = (languageCode) => {
-                translatePage(languageCode);
-                alert(`Language changed to ${languageCode.toUpperCase()} (mocked)`);
-                languageSelection.classList.add('hidden');
-                // Code to switch language (mocked)
-            };
+    const changeLanguage = (languageCode) => {
+        translatePage(languageCode);
+        alert(`Language changed to ${languageCode.toUpperCase()} (mocked)`);
+        languageSelection.classList.add('hidden');
+    };
 
-            searchBar.addEventListener('input', () => {
-                displayReviews();
-            });
+    searchBar.addEventListener('input', () => {
+        displayReviews();
+    });
 
-            const resizeImage = (base64Str, callback) => {
+    const resizeImage = (base64Str, callback) => {
                 const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
+                img.onload = function () {
                     const MAX_WIDTH = 300;
                     const MAX_HEIGHT = 300;
                     let width = img.width;
@@ -447,18 +532,22 @@
                         }
                     }
 
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
                     canvas.width = width;
                     canvas.height = height;
-                    const ctx = canvas.getContext('2d');
+
                     ctx.drawImage(img, 0, 0, width, height);
-                    callback(canvas.toDataURL('image/png'));
+                    callback(canvas.toDataURL('image/jpeg'));
                 };
                 img.src = base64Str;
             };
 
-            translatePage('en'); // Default language
+            // Initial translation to English
+            translatePage('en');
             displayReviews();
         });
     </script>
 </body>
 </html>
+
